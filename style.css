@@ -4,6 +4,7 @@
     --bg-medium: rgba(224, 223, 191, 1);
     --text-heading: rgba(255, 199, 0, 1);
     --text-accent: rgba(0, 0, 0, 0.31);
+    --text-accent-bright: rgba(255, 91, 91, 1);
     --line-accent: rgba(16, 0, 204, 1);
 }
 
@@ -49,6 +50,7 @@ header input {
 
 .title {
     margin: 0 0 0 5%;
+    width: fit-content;
     font-size: 4rem;
     font-weight: 700;
     color: var(--text-heading);
@@ -62,7 +64,7 @@ header input {
     grid-template-rows: 1fr 1fr 1fr;
 }
 
-.yearlyCalendar ol {
+.months {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -72,8 +74,8 @@ header input {
     background-color: var(--bg-medium);
 }
 
-.yearlyCalendar li:hover,
-.monthlyCalendar li:hover {
+.month:hover,
+.day:hover {
     background-color: var(--bg-light);
     box-shadow: 0 2px 8px black;
     cursor: pointer;
@@ -95,7 +97,7 @@ header input {
     align-items: flex-end;
 }
 
-@media (min-width: 40em) {
+@media (min-width: 50em) {
     .page {
         grid-template-rows: 0.1fr 0.4fr 2fr;
     }
@@ -112,10 +114,8 @@ header input {
 
     .title {
         margin: 0.3em 0 0 0;
-        font-size: 8rem;
-        display: flex;
-        align-items: end;
-        justify-content: center;
+        font-size: 7.75rem;
+        justify-self: center;
     }
 
     .yearlyCalendar {
@@ -126,7 +126,7 @@ header input {
         align-items: center;
     }
 
-    .yearlyCalendar ol {
+    .months {
         width: min(30%, 25em);
         height: 20em;
     }
@@ -140,13 +140,17 @@ header input {
 
 .prevPage {
     align-self: flex-start;
-    margin-left: 5%;
+    margin: 0.25em 0 0 5%;
     text-decoration: none;
-    color: white;
-    font-size: 3rem;
+    color: var(--bg-light);
+    font-size: 2rem;
 }
 
-.monthlyCalendar ol {
+.prevPage:hover {
+    color: var(--text-heading);
+}
+
+.days {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -163,8 +167,7 @@ header input {
     display: flex;
     font-weight: 700;
     font-size: 1rem;
-
-
+    position: relative;
 }
 
 .day::before {
@@ -185,6 +188,56 @@ header input {
 }
 
 .day a {
-    height: 100%;
     width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.monthName {
+    margin-top: 0;
+}
+
+.weekdays {
+    height: 0;
+    width: 0;
+    color: rgba(0, 0, 0, 0);
+}
+
+@media (min-width: 50em) {
+    .prevPage {
+        margin: 0.5em 0 0 0;
+        align-self: center;
+    }
+
+    .monthlyCalendar {
+        width: 80%;
+        height: min(90%, 40em);
+        justify-self: center;
+    }
+
+    .days {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .day::after {
+        content: "";
+    }
+
+    .weekdays {
+        list-style: none;
+        display: grid;
+        padding: 0 0 0.5em 0;
+        width: 100%;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .weekday {
+        color: var(--text-accent-bright);
+        font-size: 1rem;
+        font-weight: 600;
+        justify-self: center;
+    }
 }

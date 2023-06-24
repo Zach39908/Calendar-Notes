@@ -5,18 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css">
     <script src="../calendar-notes.js" defer></script>
-    <title>Document</title>
+    <title>Calendar Notes</title>
 </head>
 <body>
 
     <section class="page">
         <header>
             <input type="search" name="searchNotes" placeholder="Search Notes" autocomplete="off">
-            <a href="index.html" class="prevPage">🠔</a>
+            <a href="index.html" class="prevPage">Year</a>
         </header>
-        <a href="index.html" class="title">Month</a>
+        <a href="index.html" class="title monthName">Month</a>
         <nav class="monthlyCalendar">
-            <ol>
+            <ol class="weekdays">
+                <li class="weekday">Sunday</li>
+                <li class="weekday">Monday</li>
+                <li class="weekday">Tuesday</li>
+                <li class="weekday">Wednesday</li>
+                <li class="weekday">Thursday</li>
+                <li class="weekday">Friday</li>
+                <li class="weekday">Saturday</li>
+            </ol>
+            <ol class="days">
                 <li class="day"><a href="day.html"></a></li>
                 <li class="day"><a href="day.html"></a></li>
                 <li class="day"><a href="day.html"></a></li>
