@@ -1,0 +1,190 @@
+:root {
+    --bg-dark: rgb(4, 18, 54);
+    --bg-light: rgba(203, 203, 203, 1);
+    --bg-medium: rgba(224, 223, 191, 1);
+    --text-heading: rgba(255, 199, 0, 1);
+    --text-accent: rgba(0, 0, 0, 0.31);
+    --line-accent: rgba(16, 0, 204, 1);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* index.html styling */
+
+body {
+    margin: 0;
+}
+
+.page {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: var(--bg-dark);
+    display: grid;
+    grid-template-rows: 0.1fr 0.1fr 1fr;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header input {
+    width: 90%;
+    margin-top: 1.5em;
+    border-radius: 5px;
+    border: none;
+    padding: 0.5em;
+}
+
+::placeholder {
+    font-family: inherit;
+}
+
+.title {
+    margin: 0 0 0 5%;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    text-decoration: none;
+}
+
+.yearlyCalendar {
+    width: 100%;
+    height: 90%;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.yearlyCalendar ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    background-color: var(--bg-medium);
+}
+
+.yearlyCalendar li:hover,
+.monthlyCalendar li:hover {
+    background-color: var(--bg-light);
+    box-shadow: 0 2px 8px black;
+    cursor: pointer;
+}
+
+.month {
+    border: 1px dashed var(--line-accent);
+}
+
+.month a {
+    height: 100%;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: black;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+@media (min-width: 40em) {
+    .page {
+        grid-template-rows: 0.1fr 0.4fr 2fr;
+    }
+
+    header input {
+        margin-top: 3em;
+        padding: 0.75em;
+        width: min(75%, 80em);
+    }
+
+    ::placeholder {
+        font-size: 1rem;
+    }
+
+    .title {
+        margin: 0.3em 0 0 0;
+        font-size: 8rem;
+        display: flex;
+        align-items: end;
+        justify-content: center;
+    }
+
+    .yearlyCalendar {
+        display: flex;
+        height: min(100%, 30em);
+        gap: 2em;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .yearlyCalendar ol {
+        width: min(30%, 25em);
+        height: 20em;
+    }
+
+    .yearlyCalendar a {
+        font-size: 2rem;
+    }
+}
+
+/* month.html styling */
+
+.prevPage {
+    align-self: flex-start;
+    margin-left: 5%;
+    text-decoration: none;
+    color: white;
+    font-size: 3rem;
+}
+
+.monthlyCalendar ol {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    background-color: var(--bg-medium);
+    counter-reset: day-counter 0;
+    list-style: none;
+    padding: 0;
+    height: 90%;
+}
+
+.day {
+    counter-increment: day-counter 1;
+    border: 1px dashed var(--line-accent);
+    display: flex;
+    font-weight: 700;
+    font-size: 1rem;
+
+
+}
+
+.day::before {
+    content: counter(day-counter);
+    margin: 0.35em;
+}
+
+.day::after {
+    content: "Day";
+    align-self: flex-end;
+    margin: 0.25em;
+    margin-left: auto;
+    color: var(--text-accent);
+}
+
+.day::hover {
+    background-color: var(--bg-light);
+}
+
+.day a {
+    height: 100%;
+    width: 100%;
+}
