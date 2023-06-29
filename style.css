@@ -50,7 +50,6 @@ header input {
 
 .title {
     margin: 0 0 0 5%;
-    width: fit-content;
     font-size: 4rem;
     font-weight: 700;
     color: var(--text-heading);
@@ -99,7 +98,7 @@ header input {
 
 @media (min-width: 50em) {
     .page {
-        grid-template-rows: 0.1fr 0.4fr 2fr;
+        grid-template-rows: 0.4fr 0.1fr 2fr;
     }
 
     header input {
@@ -113,7 +112,7 @@ header input {
     }
 
     .title {
-        margin: 0.3em 0 0 0;
+        margin: 0;
         font-size: 7.75rem;
         justify-self: center;
     }
@@ -138,12 +137,17 @@ header input {
 
 /* month.html styling */
 
+.links {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1em;
+}
+
 .prevPage {
-    align-self: flex-start;
-    margin: 0.25em 0 0 5%;
     text-decoration: none;
     color: var(--bg-light);
     font-size: 2rem;
+    margin: 0 0 0 5%;
 }
 
 .prevPage:hover {
@@ -195,24 +199,24 @@ header input {
     left: 0;
 }
 
-.monthName {
-    margin-top: 0;
-}
-
 .weekdays {
     height: 0;
     width: 0;
+    position: absolute;
     color: rgba(0, 0, 0, 0);
 }
 
 @media (min-width: 50em) {
+    .links {
+        align-items: center;
+    }
+
     .prevPage {
-        margin: 0.5em 0 0 0;
-        align-self: center;
+        margin: 0;
     }
 
     .monthlyCalendar {
-        width: 80%;
+        width: 85%;
         height: min(90%, 40em);
         justify-self: center;
     }
@@ -227,6 +231,7 @@ header input {
     }
 
     .weekdays {
+        position: inherit;
         list-style: none;
         display: grid;
         padding: 0 0 0.5em 0;
@@ -240,4 +245,20 @@ header input {
         font-weight: 600;
         justify-self: center;
     }
+}
+
+/* day.html styling */
+
+.textEditor {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.notepad {
+    width: 100%;
+    height: 90%;
+    padding: 0.5em;
+    background-color: var(--bg-medium);
+    align-self: flex-end;
 }
