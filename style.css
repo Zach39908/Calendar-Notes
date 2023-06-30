@@ -16,12 +16,15 @@
 
 /* index.html styling */
 
+html {
+    font-family: 'Inter', Georgia, serif;
+}
+
 body {
     margin: 0;
 }
 
 .page {
-    font-family: 'Inter', sans-serif;
     margin: 0;
     min-height: 100vh;
     min-width: 100vw;
@@ -98,7 +101,7 @@ header input {
 
 @media (min-width: 50em) {
     .page {
-        grid-template-rows: 0.4fr 0.1fr 2fr;
+        grid-template-rows: 0.3fr 0.1fr 2fr;
     }
 
     header input {
@@ -150,8 +153,9 @@ header input {
     margin: 0 0 0 5%;
 }
 
-.prevPage:hover {
-    color: var(--text-heading);
+.prevPage:hover,
+a.title:hover {
+    color: var(--text-accent-bright);
 }
 
 .days {
@@ -185,10 +189,6 @@ header input {
     margin: 0.25em;
     margin-left: auto;
     color: var(--text-accent);
-}
-
-.day::hover {
-    background-color: var(--bg-light);
 }
 
 .day a {
@@ -253,12 +253,39 @@ header input {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 0.75em;
+}
+
+.textOptions button {
+    font-size: 0.825rem;
+    font-weight: 600;
+    padding: 0.2em;
+    cursor: pointer;
 }
 
 .notepad {
     width: 100%;
-    height: 90%;
+    height: 95%;
     padding: 0.5em;
     background-color: var(--bg-medium);
+    border: none;
     align-self: flex-end;
+    font-family: inherit;
+}
+
+@media (min-width: 50em) {
+    .textOptions {
+        width: 100%;
+        display: flex;
+        gap: 0.5em;
+        justify-content: center;
+    }
+
+    .textOptions button {
+        font-size: 0.9rem;
+        padding: 0.5em;
+    }
 }
