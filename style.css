@@ -260,10 +260,17 @@ a.title:hover {
 }
 
 .textOptions button {
+    font-family: inherit;
     font-size: 0.825rem;
     font-weight: 600;
     padding: 0.2em;
     cursor: pointer;
+}
+
+.textOptions button:hover {
+    background-color: var(--bg-dark);
+    border: none;
+    color: var(--text-accent-bright);
 }
 
 .notepad {
