@@ -183,12 +183,12 @@ a.title:hover {
 }
 
 .day:before {
-    content: attr(data-content);
+    content: attr(data-number);
     margin: 0.35em;
 }
 
 .day::after {
-    content: "Day";
+    content: attr(data-weekday);
     align-self: flex-end;
     margin: 0.25em;
     margin-left: auto;
