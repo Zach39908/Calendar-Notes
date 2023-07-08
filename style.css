@@ -52,11 +52,12 @@ header input {
 }
 
 .title {
-    margin: 0 0 0 5%;
+    margin: 0;
     font-size: 4rem;
     font-weight: 700;
     color: var(--text-heading);
     text-decoration: none;
+    justify-self: center;
 }
 
 .yearlyCalendar {
@@ -117,7 +118,6 @@ header input {
     .title {
         margin: 0;
         font-size: 7.75rem;
-        justify-self: center;
     }
     
     h1.title {
@@ -147,14 +147,15 @@ header input {
 .links {
     display: flex;
     flex-direction: column;
-    padding-top: 1em;
+    align-items: center;
+    padding: 1em 0;
 }
 
 .prevPage {
     text-decoration: none;
     color: var(--bg-light);
     font-size: 2rem;
-    margin: 0 0 0 5%;
+    margin: 0;
     position: relative;
     top: 10px;
 }
@@ -211,16 +212,12 @@ a.title:hover {
 }
 
 @media (min-width: 750px) {
-    .links {
-        align-items: center;
-    }
-
     .prevPage {
         margin: 0;
     }
 
     .monthlyCalendar {
-        width: 85%;
+        width: min(85%, 80em);
         height: min(90%, 40em);
         justify-self: center;
     }
