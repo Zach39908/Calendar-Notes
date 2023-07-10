@@ -1,16 +1,13 @@
-function setDateHeading(today, headingItems) {
-    const selectedMonth = localStorage.getItem('month');
-    const selectedDay = localStorage.getItem('day');
-    const weekday = localStorage.getItem('weekday');
+function setDateHeading(month, day, weekday) {
+    const today = new Date();
+    const headingItems = Array.from(document.querySelectorAll('.prevPage'));
 
     headingItems[0].textContent = today.getFullYear();
     headingItems[1].textContent = weekday;
-    document.querySelector('.title').textContent = `${selectedMonth} ${selectedDay}`;
+    document.querySelector('.title').textContent = `${month} ${day}`;
 }
 
-
-
-// Display date in heading
-const today = new Date();
-const headingItems = Array.from(document.querySelectorAll('.prevPage'));
-setDateHeading(today, headingItems);
+const month = localStorage.getItem('month');
+const day = localStorage.getItem('day');
+const weekday = localStorage.getItem('weekday');
+setDateHeading(month, day, weekday);

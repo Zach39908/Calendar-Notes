@@ -1,6 +1,5 @@
-// Display current year in heading
 const today = new Date();
-document.querySelector('h1.title').textContent = today.getFullYear();
+document.querySelector('h1.title').textContent = today.getFullYear(); // set year text
 
 // Save month to local storage when selected
 document.querySelectorAll('li.month').forEach(month => month.addEventListener('click', () => {

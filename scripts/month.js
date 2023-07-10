@@ -1,6 +1,6 @@
-function setDateHeading(today, selectedMonth) {
+function setDateHeading(today, month) {
     document.querySelector('.prevPage').textContent = today.getFullYear(); // set year text
-    document.querySelector('.title').textContent = selectedMonth; // set month text
+    document.querySelector('.title').textContent = month; // set month text
 }
 
 function extendCalendar() {
@@ -16,8 +16,13 @@ function extendCalendar() {
 }
 
 function populateCalendar(today, selectedMonth, weekdays, dayCells) {
+    /* 
+      - Offset is an integer index for the weekday of the selected month's first day
+      - Example:  month = July, year = 2023  -->  July 1st, 2023 is a Saturday (6)  -->  offset = 6
+      - This is needed to place dates on the calendar under the correct weekday (for wide-screen devices) 
+    */
     const getOffset = new Date(`${selectedMonth} 1, ${today.getFullYear()} 00:00:00`);
-    const offset = getOffset.getDay(); // offset = weekday of the current month's first day
+    const offset = getOffset.getDay();
     const getDays = new Date(today.getFullYear(), today.getMonth(), 0);
     const daysInMonth = parseInt(getDays.getDate()) + 1;
     
@@ -29,32 +34,27 @@ function populateCalendar(today, selectedMonth, weekdays, dayCells) {
         }
     }
     else { // disregard offset for mobile devices
-        for(let i=0; i < daysInMonth; i++) {
-            dayCells[i].dataset.number = `${i+1}`; // add day number to each cell
+        for(let i = 0; i < daysInMonth; i++) {
+            dayCells[i].dataset.number = `${i+1}`; // add date to each cell
             const getWeekday = new Date(`${selectedMonth} ${i + 1}, ${today.getFullYear()} 00:00:00`);
             dayCells[i].dataset.weekday = weekdays[getWeekday.getDay()].slice(0, 3); // add weekday to each cell (visible)
         }
     }
 }
 
-
-
-// Display year and month in heading
 const today = new Date();
-const selectedMonth = localStorage.getItem('month');
-setDateHeading(today, selectedMonth);
+const month = localStorage.getItem('month');
+setDateHeading(today, month);
 
-// Add row of cells for wide-screen devices
 if(window.screen.width >= 750)
     extendCalendar();
 
-// Add dates and weekdays to calendar cells
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const dayCells = Array.from(document.querySelectorAll('li.day'));
-populateCalendar(today, selectedMonth, weekdays, dayCells);
+const dayCells = document.querySelectorAll('li.day');
+populateCalendar(today, month, weekdays, Array.from(dayCells));
 
-// Save date and weekday to local storage when selected
-for(day in dayCells) {
+// Save date to local storage when selected
+dayCells.forEach(day => day.addEventListener('click', () => {
     localStorage.setItem('day', day.dataset.number);
     localStorage.setItem('weekday', weekdays.find(elem => elem.slice(0, 3) === day.dataset.weekday));
-}
+}));
