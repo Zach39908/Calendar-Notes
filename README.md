@@ -1,6 +1,5 @@
-# Calendar Notes
+# [Calendar-Notes](https://zach39908.github.io/Calendar-Notes/)
 A simple app that integrates note-taking with a yearly calendar.
-[Calendar-Notes](https://zach39908.github.io/Calendar-Notes/)
 
 - Set Reminders
 - Track Deadlines
@@ -8,6 +7,9 @@ A simple app that integrates note-taking with a yearly calendar.
 - Daily Journal
 
 Designed for mobile and desktop.
+
+## External Libraries
+Utililzed [tiny-editor](https://github.com/fvilers/tiny-editor) for the notes input editor.
 
 ## Made By
 @Zach39908

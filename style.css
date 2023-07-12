@@ -250,50 +250,17 @@ a.title:hover {
 
 /* day.html styling */
 
-.textEditor {
+.editorWrapper {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    padding-top: 0.75em;
 }
 
-.textOptions button {
-    font-family: inherit;
-    font-size: 0.825rem;
-    font-weight: 600;
-    padding: 0.2em;
-    cursor: pointer;
+.__toolbar {
+    width: 100%;
 }
 
-.textOptions button:hover {
-    background-color: var(--bg-dark);
-    border: none;
-    color: var(--text-accent-bright);
-}
-
-.notepad {
+.__editor {
     width: 100%;
     height: 95%;
-    padding: 0.5em;
     background-color: var(--bg-medium);
-    border: none;
-    align-self: flex-end;
-    font-family: inherit;
-}
-
-@media (min-width: 750px) {
-    .textOptions {
-        width: 100%;
-        display: flex;
-        gap: 0.5em;
-        justify-content: center;
-    }
-
-    .textOptions button {
-        font-size: 0.9rem;
-        padding: 0.5em;
-    }
 }

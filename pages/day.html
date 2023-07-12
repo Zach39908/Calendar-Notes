@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="../style.css">
     <script src="../scripts/day.js" defer></script>
     <title>Calendar Notes - Day</title>
@@ -21,17 +22,12 @@
             <a href="month.html" class="prevPage">Weekday</a>
             <a href="month.html" class="title">Month Day</a>
         </div>
-        <div class="textEditor">
-            <div class="textOptions">
-                <button type="button" data-element="bold">Bold</button>
-                <button type="button" data-element="italic">Italic</button>
-                <button type="button" data-element="underline">Underline</button>
-                <button type="button" data-element="insertUnorderedList">Unordered List</button>
-                <button type="button" data-element="insertOrderedList">Ordered List</button>
-            </div>
-            <div class="notepad" contenteditable="true"></div>
+        <div class="editorWrapper">
+            <div data-tiny-editor=""></div>
         </div>
     </section>
     
 </body>
+
+<script src="../tiny-editor-library/node_modules/tiny-editor/dist/bundle.js"></script>
 </html>
