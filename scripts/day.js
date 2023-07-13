@@ -7,10 +7,22 @@ function setDateHeading(month, day, weekday) {
     document.querySelector('.title').textContent = `${month} ${day}`;
 }
 
+function loadNotes(editor, date) {
+    const userNotes = localStorage.getItem(date);
+
+    if(userNotes)
+        editor.innerHTML = userNotes;
+}
+
 const month = localStorage.getItem('month');
 const day = localStorage.getItem('day');
 const weekday = localStorage.getItem('weekday');
+const year = localStorage.getItem('year');
+const fullDate = `${weekday}, ${month} ${day}, ${year}`;
+const tinyEditor = document.querySelector('[data-tiny-editor]');
+
 setDateHeading(month, day, weekday);
+loadNotes(tinyEditor, fullDate);
 
 if(window.screen.width < 750) {
     // Remove separator bars for better readability on mobile devices
@@ -25,4 +37,6 @@ if(window.screen.width < 750) {
 }
 
 // Override tiny-editor inline style for aesthetic
-document.querySelector('.__editor').style.backgroundColor = 'rgba(224, 223, 191, 1)';
+document.querySelector('.__editor').style.backgroundColor = 'var(--bg-medium)';
+
+tinyEditor.addEventListener('input', () => localStorage.setItem(fullDate, tinyEditor.innerHTML));
