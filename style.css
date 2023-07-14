@@ -52,7 +52,7 @@ header input {
 }
 
 .title {
-    margin: 0;
+    margin: 0.1em 0;
     font-size: 3rem;
     font-weight: 700;
     color: var(--text-heading);
@@ -108,7 +108,7 @@ header input {
     header input {
         margin-top: 3em;
         padding: 0.75em;
-        width: min(75%, 80em);
+        width: min(75%, 1400px);
     }
 
     ::placeholder {
@@ -264,4 +264,41 @@ a.title:hover {
     width: 100%;
     height: 95%;
     background-color: var(--bg-medium);
+}
+
+.dropdown {
+    width: 90%;
+    padding: 0;
+    max-height: 35%;
+    background-color: white;
+    position: absolute;
+    top: 1.8em;
+    z-index: 2;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow: scroll;
+}
+
+.dropdown li {
+    width: 100%;
+    padding: 5px;
+    list-style-position: inside;
+    font-size: 0.9rem;
+}
+
+.dropdown li:hover {
+    background-color: var(--bg-light);
+}
+
+.dropdown span {
+    font-size: 0.8rem;
+}
+
+@media (min-width: 750px) {
+    .dropdown {
+        width: min(75%, 1400px);
+        border-radius: 5px;
+        border: none;
+        top: 3.3em;
+    }
 }

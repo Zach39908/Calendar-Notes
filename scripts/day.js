@@ -1,14 +1,13 @@
-function setDateHeading(month, day, weekday) {
-    const today = new Date();
+function setDateHeading(month, day, weekday, year) {
     const headingItems = Array.from(document.querySelectorAll('.prevPage'));
 
-    headingItems[0].textContent = today.getFullYear();
+    headingItems[0].textContent = year;
     headingItems[1].textContent = weekday;
     document.querySelector('.title').textContent = `${month} ${day}`;
 }
 
-function loadNotes(editor, date) {
-    const userNotes = localStorage.getItem(date);
+function loadNotes(editor, month, day) {
+    const userNotes = localStorage.getItem(`${month} ${day}`);
 
     if(userNotes)
         editor.innerHTML = userNotes;
@@ -18,11 +17,10 @@ const month = localStorage.getItem('month');
 const day = localStorage.getItem('day');
 const weekday = localStorage.getItem('weekday');
 const year = localStorage.getItem('year');
-const fullDate = `${weekday}, ${month} ${day}, ${year}`;
 const tinyEditor = document.querySelector('[data-tiny-editor]');
 
-setDateHeading(month, day, weekday);
-loadNotes(tinyEditor, fullDate);
+setDateHeading(month, day, weekday, year);
+loadNotes(tinyEditor, month, day);
 
 if(window.screen.width < 750) {
     // Remove separator bars for better readability on mobile devices
@@ -39,4 +37,4 @@ if(window.screen.width < 750) {
 // Override tiny-editor inline style for aesthetic
 document.querySelector('.__editor').style.backgroundColor = 'var(--bg-medium)';
 
-tinyEditor.addEventListener('input', () => localStorage.setItem(fullDate, tinyEditor.innerHTML));
+tinyEditor.addEventListener('input', () => localStorage.setItem(`${month} ${day}`, tinyEditor.innerHTML));
