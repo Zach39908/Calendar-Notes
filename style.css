@@ -338,8 +338,7 @@ a.title:hover {
     border: 1px solid var(--bg-light);
 }
 
-.notes,
-.notes-active {
+.notes {
     width: 100%;
     height: 100%;
     display: grid;
@@ -423,13 +422,12 @@ a.title:hover {
         margin-top: 0.75em;
     }
 
-    .notes,
-    .notes-active {
+    .notes {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
 
     .active {
-        grid-column: 1 / 4;
+        grid-column: 1 / 3;
     }
 }
 
