@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-function setDateHeading(month, day, weekday, year) {
-=======
 let noteCount = 1;
 let activeNote = null;
 
 function setDateHeading(month, day, weekday) {
     const today = new Date();
->>>>>>> v2-input-tiles
     const headingItems = Array.from(document.querySelectorAll('.prevPage'));
 
     headingItems[0].textContent = year;
@@ -15,14 +11,9 @@ function setDateHeading(month, day, weekday) {
     document.title = `Calendar Notes - ${month} ${day}`;
 }
 
-<<<<<<< HEAD
-function loadNotes(editor, month, day) {
-    const userNotes = localStorage.getItem(`${month} ${day}`);
-=======
 function openNote(note) {
     note.classList.add('active');
     activeNote = note;
->>>>>>> v2-input-tiles
 
     const title = note.children.item(0);
     const trashBin = note.children.item(1);
@@ -70,15 +61,8 @@ const month = localStorage.getItem('month');
 const day = localStorage.getItem('day');
 const weekday = localStorage.getItem('weekday');
 const year = localStorage.getItem('year');
-<<<<<<< HEAD
-const tinyEditor = document.querySelector('[data-tiny-editor]');
-
-setDateHeading(month, day, weekday, year);
-loadNotes(tinyEditor, month, day);
-=======
 
 setDateHeading(month, day, weekday);
->>>>>>> v2-input-tiles
 
 document.querySelector('.addNote')
         .addEventListener('click', () => {
@@ -103,16 +87,9 @@ notesContainer.addEventListener('click', e => {
             if(activeNote)
                 closeNote(activeNote);
 
-<<<<<<< HEAD
-// Override tiny-editor inline style for aesthetic
-document.querySelector('.__editor').style.backgroundColor = 'var(--bg-medium)';
-
-tinyEditor.addEventListener('input', () => localStorage.setItem(`${month} ${day}`, tinyEditor.innerHTML));
-=======
             // A child element of the 'note' tile could be selected
             if(e.target.classList[0] !== 'note') 
                 openNote(e.target.parentNode);
             else
                 openNote(e.target);
         });
->>>>>>> v2-input-tiles
