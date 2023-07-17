@@ -1,3 +1,5 @@
+let noteCount = 1;
+
 function setDateHeading(month, day, weekday) {
     const today = new Date();
     const headingItems = Array.from(document.querySelectorAll('.prevPage'));
