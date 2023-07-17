@@ -26,13 +26,16 @@ function openNote(note) {
     closeBtn.addEventListener('click', () => closeNote(note));
 }
 
-function closeNote(note) {
-    const title = note.children.item(0);
-    const closeBtn = note.children.item(1);
-    const text = note.children.item(3);
+function closeNote() {
+    if(!activeNote)
+        return;
 
-    note.removeChild(closeBtn);
-    note.classList.remove('active');
+    const title = activeNote.children.item(0);
+    const closeBtn = activeNote.children.item(1);
+    const text = activeNote.children.item(3);
+
+    activeNote.removeChild(closeBtn);
+    activeNote.classList.remove('active');
     title.contentEditable = text.contentEditable = false;
     activeNote = null;
 }
@@ -54,7 +57,15 @@ function addNote() {
     newNote.appendChild(trashBin);
     newNote.appendChild(text);
     notesContainer.appendChild(newNote);
-    openNote(newNote);
+}
+
+function deleteNote(note) {
+    if(!confirm('Are you sure you want to delete this note?'))
+        return;
+    if(note === activeNote)
+        closeNote();
+        
+    document.querySelector('.notes').removeChild(note);
 }
 
 const month = localStorage.getItem('month');
@@ -66,10 +77,7 @@ setDateHeading(month, day, weekday);
 
 document.querySelector('.addNote')
         .addEventListener('click', () => {
-            if(activeNote)
-                alert('Please close the current note before adding a new one.');
-            else
-                addNote();
+            addNote();
         });
 
 const notesContainer = document.querySelector('.notes')
@@ -77,15 +85,20 @@ notesContainer.addEventListener('click', e => {
             // Empty space around notes could be selected
             if(e.target === notesContainer)
                 return;
+            // Delete icon is an 'img' element
+            if(e.target.tagName === 'IMG') {
+                deleteNote(e.target.parentNode);
+                return;
+            }
             // Don't open any notes if a 'Close' button is selected
-            if(e.target.textContent === 'Close')
+            if(e.target.tagName === 'BUTTON')
                 return;
             // Don't open note if it is already active
             if(e.target === activeNote || e.target.parentNode === activeNote)
                 return;
             // Close any other active notes before opening selected note
             if(activeNote)
-                closeNote(activeNote);
+                closeNote();
 
             // A child element of the 'note' tile could be selected
             if(e.target.classList[0] !== 'note') 
