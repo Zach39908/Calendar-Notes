@@ -5,6 +5,7 @@ function setDateHeading(month, day, weekday) {
     headingItems[0].textContent = today.getFullYear();
     headingItems[1].textContent = weekday;
     document.querySelector('.title').textContent = `${month} ${day}`;
+    document.title = `Calendar Notes - ${month} ${day}`;
 }
 
 const month = localStorage.getItem('month');

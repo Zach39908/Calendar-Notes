@@ -2,7 +2,7 @@
     --bg-dark: rgb(4, 18, 54);
     --bg-light: rgba(217, 217, 217, 1);
     --bg-medium: rgba(224, 223, 191, 1);
-    --bg-opaque: rgba(0, 0, 0, 0.336);
+    --bg-opaque: rgba(0, 0, 0, 0.253);
     --text-heading: rgba(255, 199, 0, 1);
     --text-accent: rgba(0, 0, 0, 0.31);
     --text-accent-bright: rgba(255, 91, 91, 1);
@@ -50,6 +50,34 @@ header input {
 
 ::placeholder {
     font-family: inherit;
+}
+
+.dropdown {
+    width: 90%;
+    padding: 0;
+    max-height: 35%;
+    background-color: white;
+    position: absolute;
+    top: 1.8em;
+    z-index: 2;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow: scroll;
+}
+
+.dropdown li {
+    width: 100%;
+    padding: 5px;
+    list-style-position: inside;
+    font-size: 0.9rem;
+}
+
+.dropdown li:hover {
+    background-color: var(--bg-light);
+}
+
+.dropdown span {
+    font-size: 0.8rem;
 }
 
 .title {
@@ -122,6 +150,13 @@ footer {
 
     ::placeholder {
         font-size: 1rem;
+    }
+
+    .dropdown {
+        width: min(75%, 1400px);
+        border-radius: 5px;
+        border: none;
+        top: 3.3em;
     }
 
     .title {
@@ -260,39 +295,87 @@ a.title:hover {
 
 /* day.html styling */
 
-.dropdown {
-    width: 90%;
-    padding: 0;
-    max-height: 35%;
-    background-color: white;
-    position: absolute;
-    top: 1.8em;
-    z-index: 2;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+.editor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+}
+
+.addNote {
+    width: 10em;
+    height: 2rem;
+    margin-bottom: 0.75em;
+    font-size: 1.25rem;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--bg-opaque);
+    color: white;
+    cursor: pointer;
+}
+
+.addNote:hover {
+    color: var(--text-accent-bright);
+    border: 1px solid var(--bg-light);
+}
+
+.notes {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+    flex-wrap: wrap;
     overflow: scroll;
 }
 
-.dropdown li {
-    width: 100%;
-    padding: 5px;
-    list-style-position: inside;
-    font-size: 0.9rem;
-}
-
-.dropdown li:hover {
+.note {
+    width: 7em;
+    height: 5em;
     background-color: var(--bg-light);
+    border-radius: 5px;
+    padding: 0.5em;
+    display: grid;
+    grid-template-columns: 1fr 0.1fr;
+    grid-template-rows: 0.2fr 1fr;
+    overflow: hidden;
 }
 
-.dropdown span {
-    font-size: 0.8rem;
+.note:hover {
+    background-color: var(--bg-medium);
+    border: 1px dashed var(--line-accent);
+    cursor: pointer;
+}
+
+.note h3 {
+    margin: 0;
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.note img {
+    height: 1.5em;
+    width: 1.5em;
+    cursor: pointer;
+}
+
+.note img:hover {
+    border: 1px solid var(--text-accent-bright);
+}
+
+.note p {
+    margin: 0;
+    grid-row: 2;
+    grid-column: 1 / 3;
 }
 
 @media (min-width: 750px) {
-    .dropdown {
-        width: min(75%, 1400px);
-        border-radius: 5px;
-        border: none;
-        top: 3.3em;
+    .addNote {
+        width: 15em;
+    }
+
+    .note {
+        width: 10em;
+        height: 8em;
     }
 }
