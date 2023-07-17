@@ -1,6 +1,7 @@
 function setDateHeading(year, month) {
     document.querySelector('.prevPage').textContent = year; // set year text
     document.querySelector('.title').textContent = month; // set month text
+    document.title = `Calendar Notes - ${month}`;
 }
 
 function extendCalendar() {

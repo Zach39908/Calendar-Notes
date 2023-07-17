@@ -1,7 +1,8 @@
 :root {
     --bg-dark: rgb(4, 18, 54);
-    --bg-light: rgba(203, 203, 203, 1);
+    --bg-light: rgba(217, 217, 217, 1);
     --bg-medium: rgba(224, 223, 191, 1);
+    --bg-opaque: rgba(0, 0, 0, 0.253);
     --text-heading: rgba(255, 199, 0, 1);
     --text-accent: rgba(0, 0, 0, 0.31);
     --text-accent-bright: rgba(255, 91, 91, 1);
@@ -29,8 +30,21 @@ body {
     min-height: 100vh;
     min-width: 100vw;
     background-color: var(--bg-dark);
+}
+
+.yearly {
     display: grid;
-    grid-template-rows: 0.1fr 0.1fr 1fr;
+    grid-template-rows: 3.25em 5em 1fr 3.25em;
+}
+
+.monthly {
+    display: grid;
+    grid-template-rows: 3.25em 6em 1fr 3.25em;
+}
+
+.daily {
+    display: grid;
+    grid-template-rows: 3.25em 8em 1fr 3.25em;
 }
 
 header {
@@ -51,6 +65,34 @@ header input {
     font-family: inherit;
 }
 
+.dropdown {
+    width: 90%;
+    padding: 0;
+    max-height: 35%;
+    background-color: white;
+    position: absolute;
+    top: 1.8em;
+    z-index: 2;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow: scroll;
+}
+
+.dropdown li {
+    width: 100%;
+    padding: 5px;
+    list-style-position: inside;
+    font-size: 0.9rem;
+}
+
+.dropdown li:hover {
+    background-color: var(--bg-light);
+}
+
+.dropdown span {
+    font-size: 0.8rem;
+}
+
 .title {
     margin: 0.1em 0;
     font-size: 3rem;
@@ -58,11 +100,12 @@ header input {
     color: var(--text-heading);
     text-decoration: none;
     justify-self: center;
+    align-self: center;
 }
 
 .yearlyCalendar {
     width: 100%;
-    height: 90%;
+    height: 95%;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
 }
@@ -100,9 +143,21 @@ header input {
     align-items: flex-end;
 }
 
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-opaque);
+    font-size: 0.9rem;
+}
+
 @media (min-width: 750px) {
     .page {
-        grid-template-rows: 0.3fr 0.1fr 2fr;
+        grid-template-rows: 5em 12.5em 1fr 5em;
+    }
+
+    .daily {
+        grid-template-rows: 5em 12.5em 1fr 5em;
     }
 
     header input {
@@ -115,9 +170,16 @@ header input {
         font-size: 1rem;
     }
 
+    .dropdown {
+        width: min(75%, 1400px);
+        border-radius: 5px;
+        border: none;
+        top: 3.3em;
+    }
+
     .title {
         margin: 0;
-        font-size: 7.75rem;
+        font-size: 6rem;
     }
     
     h1.title {
@@ -148,7 +210,8 @@ header input {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1em 0;
+    justify-content: center;
+    padding: 0;
 }
 
 .prevPage {
@@ -251,19 +314,123 @@ a.title:hover {
 
 /* day.html styling */
 
-.editorWrapper {
+.editor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+}
+
+.addNote {
+    width: 10em;
+    height: 2rem;
+    margin-bottom: 0.75em;
+    font-size: 1.25rem;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--bg-opaque);
+    color: white;
+    cursor: pointer;
+}
+
+.addNote:hover {
+    color: var(--text-accent-bright);
+    border: 1px solid var(--bg-light);
+}
+
+.notes,
+.notes-active {
     width: 100%;
     height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 10em;
+    gap: 0.5em;
+    overflow: scroll;
 }
 
-.__toolbar {
-    width: 100%;
+.note {
+    background-color: var(--bg-light);
+    border-radius: 5px;
+    padding: 0.5em;
+    display: grid;
+    grid-template-columns: 1fr 0.1fr;
+    grid-template-rows: 0.2fr 1fr;
+    overflow: hidden;
 }
 
-.__editor {
-    width: 100%;
-    height: 95%;
+.note:hover {
     background-color: var(--bg-medium);
+    border: 1px dashed var(--line-accent);
+    cursor: pointer;
+}
+
+.note h3 {
+    margin: 0;
+    padding: 0;
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.note img {
+    height: 1.5em;
+    width: 1.5em;
+    cursor: pointer;
+}
+
+.note img:hover {
+    border: 1px solid var(--text-accent-bright);
+}
+
+.note p {
+    margin: 0;
+    grid-row: 2;
+    grid-column: 1 / 3;
+}
+
+.active {
+    grid-column: 1 / -1;
+    grid-row: 1 / 3;
+    background-color: var(--bg-medium);
+    border: 1px dashed var(--line-accent);
+    grid-template-columns: 1fr 0.3fr 0.1fr;
+    overflow: scroll;
+}
+
+.active button {
+    width: fit-content;
+    background-color: var(--bg-medium);
+    border: none;
+    margin: 0;
+    padding: 0;
+    height: fit-content;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.active button:hover {
+    border: 1px solid var(--text-accent-bright);
+}
+
+.active p {
+    grid-column: 1 / -1;
+}
+
+@media (min-width: 750px) {
+    .addNote {
+        width: 15em;
+        margin-top: 0.75em;
+    }
+
+    .notes,
+    .notes-active {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .active {
+        grid-column: 1 / 4;
+    }
 }
 
 .dropdown {
