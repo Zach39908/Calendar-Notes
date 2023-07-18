@@ -1,6 +1,6 @@
 function setDateHeading(today, month) {
-    document.querySelector('.prevPage').textContent = today.getFullYear(); // set year text
-    document.querySelector('.title').textContent = month; // set month text
+    document.querySelector('.link').textContent = today.getFullYear(); // set year text
+    document.querySelector('.date-heading').textContent = month; // set month text
     document.title = `Calendar Notes - ${month}`;
 }
 

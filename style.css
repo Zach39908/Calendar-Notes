@@ -93,7 +93,7 @@ header input {
     font-size: 0.8rem;
 }
 
-.title {
+.date-heading {
     margin: 0;
     font-size: 3rem;
     font-weight: 700;
@@ -177,12 +177,12 @@ footer {
         top: 3.3em;
     }
 
-    .title {
+    .date-heading {
         margin: 0;
         font-size: 6rem;
     }
     
-    h1.title {
+    h1.date-heading {
         margin-top: 0.25em;
     }
 
@@ -214,7 +214,7 @@ footer {
     padding: 0;
 }
 
-.prevPage {
+.link {
     text-decoration: none;
     color: var(--bg-light);
     font-size: 1.5rem;
@@ -223,8 +223,8 @@ footer {
     top: 10px;
 }
 
-.prevPage:hover,
-a.title:hover {
+.link:hover,
+a.date-heading:hover {
     color: var(--text-accent-bright);
 }
 
@@ -275,7 +275,7 @@ a.title:hover {
 }
 
 @media (min-width: 750px) {
-    .prevPage {
+    .link {
         margin: 0;
         font-size: 2rem;
     }
