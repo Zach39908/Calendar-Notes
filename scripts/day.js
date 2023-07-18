@@ -67,16 +67,16 @@ function closeNote() {
     activeNote = null;
 }
 
-function createNote(noteID, noteTitle, noteText) {
+function createNote(noteID, title, text) {
     const note = document.createElement('div');
     note.classList.add('note');
     const noteTitle = document.createElement('h3');
-    noteTitle.textContent = noteTitle;
+    noteTitle.textContent = title;
     const trashBin = document.createElement('img');
     trashBin.src = '../icons/trash.png';
     trashBin.alt = 'Delete note';
     const noteText = document.createElement('p');
-    noteText.textContent = noteText;
+    noteText.textContent = text;
 
     note.appendChild(noteTitle);
     note.appendChild(trashBin);
