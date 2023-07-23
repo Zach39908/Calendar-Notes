@@ -43,6 +43,17 @@ function populateCalendar(today, selectedMonth, weekdays, dayCells) {
     }
 }
 
+function disableBlankCells(dayCells) {
+    dayCells.forEach(day => {
+        if(!day.dataset.number) {
+            const dayLink = day.children.item(0);
+            dayLink.removeAttribute('href');
+            dayLink.removeAttribute('alt');
+            day.style.backgroundColor = 'var(--bg-opaque)';
+        }
+    });
+}
+
 const today = new Date();
 const month = localStorage.getItem('month');
 setDateHeading(today, month);
@@ -53,6 +64,7 @@ if(window.screen.width >= 750)
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const dayCells = document.querySelectorAll('li.day');
 populateCalendar(today, month, weekdays, Array.from(dayCells));
+disableBlankCells(dayCells);
 
 // Save date to local storage when selected
 dayCells.forEach(day => day.addEventListener('click', () => {
