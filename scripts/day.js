@@ -133,7 +133,8 @@ loadNotes();
     - Each note element has a data-attribute with the same ID
         - This allows for local storage entries to correspond with HTML elements when loading
 
-    Example:  localStorage('July 18 - Title - 4') = 'Enter notes...'
+    Example:  localStorage('July 18 - 4 - title') = 'Title'
+              localStorage('July 18 - 4 - text') = 'Enter notes...'
               corresponds with:
                    <div class="note" data-ID="4">
                       <h3>Title</h3>
@@ -170,6 +171,7 @@ notesContainer.addEventListener('click', e => {
             }
             if(e.target.tagName === 'BUTTON' && e.target.textContent === 'Save') {
                 saveNote(activeNote);
+                alert('Note Saved');
                 return;
             }
             // Don't open note if it is already active
