@@ -1,7 +1,11 @@
-function setDateHeading(today, month) {
-    document.querySelector('.link').textContent = today.getFullYear(); // set year text
-    document.querySelector('.date-heading').textContent = month; // set month text
-    document.title = `Calendar Notes - ${month}`;
+const MONTH = localStorage.getItem('month'),
+      YEAR = localStorage.getItem('year');
+
+// -- FUNCTIONS --
+function setDateHeading() {
+    document.querySelector('.link').textContent = YEAR // set year text
+    document.querySelector('.date-heading').textContent = MONTH; // set month text
+    document.title = `Calendar Notes - ${MONTH}`;
 }
 
 function extendCalendar() {
@@ -16,28 +20,28 @@ function extendCalendar() {
     }
 }
 
-function populateCalendar(today, selectedMonth, weekdays, dayCells) {
+function populateCalendar(weekdays, dayCells) {
     /* 
       - Offset is an integer index for the weekday of the selected month's first day
       - Example:  month = July, year = 2023  -->  July 1st, 2023 is a Saturday (6)  -->  offset = 6
       - This is needed to place dates on the calendar under the correct weekday (for wide-screen devices) 
     */
-    const getOffset = new Date(`${selectedMonth} 1, ${today.getFullYear()} 00:00:00`);
-    const offset = getOffset.getDay();
-    const getDays = new Date(today.getFullYear(), today.getMonth(), 0);
-    const daysInMonth = parseInt(getDays.getDate()) + 1;
+    const getOffset = new Date(`${MONTH} 1, ${YEAR} 00:00:00`),
+          offset = getOffset.getDay(),
+          getDays = new Date(YEAR, getOffset.getMonth() + 1, 0),
+          daysInMonth = parseInt(getDays.getDate());
     
     if(window.screen.width >= 750) { // use offset for wide-screen devices
         for(let i = offset; i < daysInMonth + offset; i++) {
             dayCells[i].dataset.number = `${i - offset + 1}`; // add date to each cell
-            const getWeekday = new Date(`${selectedMonth} ${i - offset +  1}, ${today.getFullYear()} 00:00:00`);
+            const getWeekday = new Date(`${MONTH} ${i - offset +  1}, ${YEAR} 00:00:00`);
             dayCells[i].dataset.weekday = weekdays[getWeekday.getDay()].slice(0, 3); // add weekday to each cell (not visible)
         }
     }
     else { // disregard offset for mobile devices
         for(let i = 0; i < daysInMonth; i++) {
             dayCells[i].dataset.number = `${i+1}`; // add date to each cell
-            const getWeekday = new Date(`${selectedMonth} ${i + 1}, ${today.getFullYear()} 00:00:00`);
+            const getWeekday = new Date(`${MONTH} ${i + 1}, ${YEAR} 00:00:00`);
             dayCells[i].dataset.weekday = weekdays[getWeekday.getDay()].slice(0, 3); // add weekday to each cell (visible)
         }
     }
@@ -53,17 +57,16 @@ function disableBlankCells(dayCells) {
         }
     });
 }
+// -- END OF FUNCTIONS --
 
-const today = new Date();
-const month = localStorage.getItem('month');
-setDateHeading(today, month);
-
+setDateHeading();
 if(window.screen.width >= 750)
     extendCalendar();
 
-const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const dayCells = document.querySelectorAll('li.day');
-populateCalendar(today, month, weekdays, Array.from(dayCells));
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      dayCells = document.querySelectorAll('li.day');
+
+populateCalendar(weekdays, Array.from(dayCells));
 disableBlankCells(dayCells);
 
 // Save date to local storage when selected

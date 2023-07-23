@@ -143,7 +143,6 @@ loadNotes();
                    </div>
 */
 const counterKey = `${MONTH} ${DAY} - counter`;
-
 if(!localStorage.getItem(counterKey))
     localStorage.setItem(counterKey, 1);
 
