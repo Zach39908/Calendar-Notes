@@ -1,62 +1,109 @@
-let noteCount = 1;
+const MONTH = localStorage.getItem('month'),
+      DAY = localStorage.getItem('day'),
+      WEEKDAY = localStorage.getItem('weekday'),
+      YEAR = localStorage.getItem('year');
+
 let activeNote = null;
 
-function setDateHeading(month, day, weekday) {
-    const today = new Date();
-    const headingItems = Array.from(document.querySelectorAll('.prevPage'));
+// -- FUNCTIONS --
+function setDateHeading() {
+    const today = new Date(),
+          headingLinks = Array.from(document.querySelectorAll('.link'));
 
-    headingItems[0].textContent = year;
-    headingItems[1].textContent = weekday;
-    document.querySelector('.title').textContent = `${month} ${day}`;
-    document.title = `Calendar Notes - ${month} ${day}`;
+    document.title = `Calendar Notes - ${MONTH} ${DAY}`;
+    headingLinks[0].textContent = YEAR;
+    headingLinks[1].textContent = WEEKDAY;
+    document.querySelector('.date-heading').textContent = `${MONTH} ${DAY}`;
+}
+
+function loadNotes() {
+    const regex = new RegExp(`${MONTH} ${DAY} - [0-9]+ - text`);
+
+    for(const key in localStorage) {
+        if(regex.test(key)) {
+            const noteID = key.split(' - ')[1],
+                  noteTitle = localStorage.getItem(`${MONTH} ${DAY} - ${noteID} - title`),
+                  noteText = localStorage.getItem(`${MONTH} ${DAY} - ${noteID} - text`);
+
+            addNote(noteID, noteTitle, noteText);
+        }
+    }
+}
+
+function saveNote(note) {
+    const noteTitle = note.children.item(0).textContent,
+          noteID = note.dataset.ID,
+          titleKey = `${MONTH} ${DAY} - ${noteID} - title`,
+          textKey = `${MONTH} ${DAY} - ${noteID} - text`;
+
+    let noteText = undefined;
+    if(note === activeNote)
+        noteText = note.children.item(4).textContent;
+    else
+        noteText = note.children.item(2).textContent;
+
+    localStorage.setItem(titleKey, noteTitle);
+    localStorage.setItem(textKey, noteText);
 }
 
 function openNote(note) {
     note.classList.add('active');
     activeNote = note;
 
-    const title = note.children.item(0);
-    const trashBin = note.children.item(1);
-    const text = note.children.item(2);
+    const title = note.children.item(0),
+          trashBin = note.children.item(1),
+          text = note.children.item(2),
+          saveBtn = document.createElement('button'),
+          closeBtn = document.createElement('button');
 
-    const closeBtn = document.createElement('button');
+    saveBtn.textContent = 'Save';
     closeBtn.textContent = 'Close';
     note.insertBefore(closeBtn, trashBin);
+    note.insertBefore(saveBtn, closeBtn);
     title.contentEditable = text.contentEditable = true;
-    closeBtn.addEventListener('click', () => closeNote(note));
 }
 
 function closeNote() {
     if(!activeNote)
         return;
 
-    const title = activeNote.children.item(0);
-    const closeBtn = activeNote.children.item(1);
-    const text = activeNote.children.item(3);
+    const noteTitle = activeNote.children.item(0),
+          saveBtn = activeNote.children.item(1),
+          closeBtn = activeNote.children.item(2),
+          noteText = activeNote.children.item(4);
 
+    activeNote.removeChild(saveBtn);
     activeNote.removeChild(closeBtn);
     activeNote.classList.remove('active');
-    title.contentEditable = text.contentEditable = false;
+    noteTitle.contentEditable = noteText.contentEditable = false;
     activeNote = null;
 }
 
-function addNote() {
-    const notesContainer = document.querySelector('.notes');
-    const newNote = document.createElement('div');
-    newNote.classList.add('note');
-
-    const title = document.createElement('h3');
-    title.textContent = 'Title';
+function createNote(noteID, title, text) {
+    const note = document.createElement('div');
+    note.classList.add('note');
+    const noteTitle = document.createElement('h3');
+    noteTitle.textContent = title;
     const trashBin = document.createElement('img');
     trashBin.src = '../icons/trash.png';
-    trashBin.alt = 'delete note';
-    const text = document.createElement('p');
-    text.textContent = 'Enter notes...';
+    trashBin.alt = 'Delete note';
+    const noteText = document.createElement('p');
+    noteText.textContent = text;
 
-    newNote.appendChild(title);
-    newNote.appendChild(trashBin);
-    newNote.appendChild(text);
-    notesContainer.appendChild(newNote);
+    note.appendChild(noteTitle);
+    note.appendChild(trashBin);
+    note.appendChild(noteText);
+    note.dataset.ID = noteID;
+
+    return note;
+}
+
+function addNote(noteID, noteTitle = 'Title', noteText = 'Enter notes...') {
+    const notesContainer = document.querySelector('.notes'),
+          note = createNote(noteID, noteTitle, noteText);
+
+    saveNote(note);
+    notesContainer.appendChild(note);
 }
 
 function deleteNote(note) {
@@ -64,20 +111,46 @@ function deleteNote(note) {
         return;
     if(note === activeNote)
         closeNote();
-        
+
+    const noteTitle = note.children.item(0).textContent,
+          noteID = note.dataset.ID,
+          titleKey = `${MONTH} ${DAY} - ${noteID} - title`,
+          textKey = `${MONTH} ${DAY} - ${noteID} - text`;
+
+    localStorage.removeItem(titleKey);
+    localStorage.removeItem(textKey);
     document.querySelector('.notes').removeChild(note);
 }
+// -- END OF FUNCTIONS --
 
-const month = localStorage.getItem('month');
-const day = localStorage.getItem('day');
-const weekday = localStorage.getItem('weekday');
-const year = localStorage.getItem('year');
+setDateHeading();
+loadNotes();
 
-setDateHeading(month, day, weekday);
+/*
+    - A counter is saved in localStorage to give a unique ID to each note on the page
+    - This allows for accurate saving/loading mechanisms
+    - localStorage contains the specific ID value for each note
+    - Each note element has a data-attribute with the same ID
+        - This allows for local storage entries to correspond with HTML elements when loading
+
+    Example:  localStorage('July 18 - 4 - title') = 'Title'
+              localStorage('July 18 - 4 - text') = 'Enter notes...'
+              corresponds with:
+                   <div class="note" data-ID="4">
+                      <h3>Title</h3>
+                      <img src="../icons/trash.png" alt="Delete note">
+                      <p>Enter notes...</p>
+                   </div>
+*/
+const counterKey = `${MONTH} ${DAY} - counter`;
+if(!localStorage.getItem(counterKey))
+    localStorage.setItem(counterKey, 1);
 
 document.querySelector('.addNote')
         .addEventListener('click', () => {
-            addNote();
+            const counterVal = parseInt(localStorage.getItem(counterKey));
+            addNote(counterVal);
+            localStorage.setItem(counterKey, counterVal + 1);
         });
 
 const notesContainer = document.querySelector('.notes')
@@ -90,16 +163,23 @@ notesContainer.addEventListener('click', e => {
                 deleteNote(e.target.parentNode);
                 return;
             }
-            // Don't open any notes if a 'Close' button is selected
-            if(e.target.tagName === 'BUTTON')
+            if(e.target.tagName === 'BUTTON' && e.target.textContent === 'Close') {
+                saveNote(activeNote);
+                closeNote();
                 return;
+            }
+            if(e.target.tagName === 'BUTTON' && e.target.textContent === 'Save') {
+                saveNote(activeNote);
+                alert('Note Saved');
+                return;
+            }
             // Don't open note if it is already active
             if(e.target === activeNote || e.target.parentNode === activeNote)
                 return;
+
             // Close any other active notes before opening selected note
             if(activeNote)
                 closeNote();
-
             // A child element of the 'note' tile could be selected
             if(e.target.classList[0] !== 'note') 
                 openNote(e.target.parentNode);
