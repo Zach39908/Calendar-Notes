@@ -17,13 +17,14 @@ function setDateHeading() {
 }
 
 function loadNotes() {
+    const regex = new RegExp(`${MONTH} ${DAY} - [0-9]+ - text`);
+
     for(const key in localStorage) {
-        if(key.includes(`${MONTH} ${DAY}`) && key !== `${MONTH} ${DAY} - counter`) {
-            const partsOfKey = key.split(' - '),
-                  noteTitle = partsOfKey[1],
-                  noteID = partsOfKey[2],
-                  noteText = localStorage.getItem(key);
-    
+        if(regex.test(key)) {
+            const noteID = key.split(' - ')[1],
+                  noteTitle = localStorage.getItem(`${MONTH} ${DAY} - ${noteID} - title`),
+                  noteText = localStorage.getItem(`${MONTH} ${DAY} - ${noteID} - text`);
+
             addNote(noteID, noteTitle, noteText);
         }
     }
@@ -31,11 +32,18 @@ function loadNotes() {
 
 function saveNote(note) {
     const noteTitle = note.children.item(0).textContent,
-          noteText = note.children.item(2).textContent,
           noteID = note.dataset.ID,
-          noteKey = `${MONTH} ${DAY} - ${noteTitle} - ${noteID}`;
+          titleKey = `${MONTH} ${DAY} - ${noteID} - title`,
+          textKey = `${MONTH} ${DAY} - ${noteID} - text`;
 
-    localStorage.setItem(noteKey, noteText);
+    let noteText = undefined;
+    if(note === activeNote)
+        noteText = note.children.item(4).textContent;
+    else
+        noteText = note.children.item(2).textContent;
+
+    localStorage.setItem(titleKey, noteTitle);
+    localStorage.setItem(textKey, noteText);
 }
 
 function openNote(note) {
@@ -45,12 +53,14 @@ function openNote(note) {
     const title = note.children.item(0),
           trashBin = note.children.item(1),
           text = note.children.item(2),
+          saveBtn = document.createElement('button'),
           closeBtn = document.createElement('button');
 
+    saveBtn.textContent = 'Save';
     closeBtn.textContent = 'Close';
     note.insertBefore(closeBtn, trashBin);
+    note.insertBefore(saveBtn, closeBtn);
     title.contentEditable = text.contentEditable = true;
-    closeBtn.addEventListener('click', () => closeNote(note));
 }
 
 function closeNote() {
@@ -58,9 +68,11 @@ function closeNote() {
         return;
 
     const noteTitle = activeNote.children.item(0),
-          closeBtn = activeNote.children.item(1),
-          noteText = activeNote.children.item(3);
+          saveBtn = activeNote.children.item(1),
+          closeBtn = activeNote.children.item(2),
+          noteText = activeNote.children.item(4);
 
+    activeNote.removeChild(saveBtn);
     activeNote.removeChild(closeBtn);
     activeNote.classList.remove('active');
     noteTitle.contentEditable = noteText.contentEditable = false;
@@ -102,9 +114,11 @@ function deleteNote(note) {
 
     const noteTitle = note.children.item(0).textContent,
           noteID = note.dataset.ID,
-          noteKey = `${MONTH} ${DAY} - ${noteTitle} - ${noteID}`;
+          titleKey = `${MONTH} ${DAY} - ${noteID} - title`,
+          textKey = `${MONTH} ${DAY} - ${noteID} - text`;
 
-    localStorage.removeItem(noteKey);
+    localStorage.removeItem(titleKey);
+    localStorage.removeItem(textKey);
     document.querySelector('.notes').removeChild(note);
 }
 // -- END OF FUNCTIONS --
@@ -149,16 +163,22 @@ notesContainer.addEventListener('click', e => {
                 deleteNote(e.target.parentNode);
                 return;
             }
-            // Don't open any notes if a 'Close' button is selected
-            if(e.target.tagName === 'BUTTON')
+            if(e.target.tagName === 'BUTTON' && e.target.textContent === 'Close') {
+                saveNote(activeNote);
+                closeNote();
                 return;
+            }
+            if(e.target.tagName === 'BUTTON' && e.target.textContent === 'Save') {
+                saveNote(activeNote);
+                return;
+            }
             // Don't open note if it is already active
             if(e.target === activeNote || e.target.parentNode === activeNote)
                 return;
+
             // Close any other active notes before opening selected note
             if(activeNote)
                 closeNote();
-
             // A child element of the 'note' tile could be selected
             if(e.target.classList[0] !== 'note') 
                 openNote(e.target.parentNode);
