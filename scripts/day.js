@@ -25,22 +25,22 @@ function loadNotes() {
                   noteTitle = localStorage.getItem(`${MONTH} ${DAY} - ${noteID} - title`),
                   noteText = localStorage.getItem(`${MONTH} ${DAY} - ${noteID} - text`);
 
-            addNote(noteID, noteTitle, noteText);
+            addNote(noteID, noteTitle, noteText, false);
         }
     }
 }
 
 function saveNote(note) {
-    const noteTitle = note.children.item(0).textContent,
+    const noteTitle = note.children.item(0).innerText,
           noteID = note.dataset.ID,
           titleKey = `${MONTH} ${DAY} - ${noteID} - title`,
           textKey = `${MONTH} ${DAY} - ${noteID} - text`;
 
     let noteText = undefined;
     if(note === activeNote)
-        noteText = note.children.item(4).textContent;
+        noteText = note.children.item(4).innerText;
     else
-        noteText = note.children.item(2).textContent;
+        noteText = note.children.item(2).innerText;
 
     localStorage.setItem(titleKey, noteTitle);
     localStorage.setItem(textKey, noteText);
@@ -83,12 +83,12 @@ function createNote(noteID, title, text) {
     const note = document.createElement('div');
     note.classList.add('note');
     const noteTitle = document.createElement('h3');
-    noteTitle.textContent = title;
+    noteTitle.innerText = title;
     const trashBin = document.createElement('img');
     trashBin.src = '../icons/trash.png';
     trashBin.alt = 'Delete note';
     const noteText = document.createElement('p');
-    noteText.textContent = text;
+    noteText.innerText = text;
 
     note.appendChild(noteTitle);
     note.appendChild(trashBin);
@@ -98,11 +98,13 @@ function createNote(noteID, title, text) {
     return note;
 }
 
-function addNote(noteID, noteTitle = 'Title', noteText = 'Enter notes...') {
+function addNote(noteID, noteTitle = 'Title', noteText = 'Enter notes...', save = true) {
     const notesContainer = document.querySelector('.notes'),
           note = createNote(noteID, noteTitle, noteText);
 
-    saveNote(note);
+    if(save)
+        saveNote(note);
+        
     notesContainer.appendChild(note);
 }
 
@@ -112,8 +114,7 @@ function deleteNote(note) {
     if(note === activeNote)
         closeNote();
 
-    const noteTitle = note.children.item(0).textContent,
-          noteID = note.dataset.ID,
+    const noteID = note.dataset.ID,
           titleKey = `${MONTH} ${DAY} - ${noteID} - title`,
           textKey = `${MONTH} ${DAY} - ${noteID} - text`;
 
