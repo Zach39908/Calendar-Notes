@@ -31,7 +31,7 @@ function loadNotes() {
 }
 
 function saveNote(note) {
-    const noteTitle = note.children.item(0).textContent,
+    const noteTitle = note.children.item(0).innerText,
           noteID = note.dataset.ID,
           titleKey = `${MONTH} ${DAY} - ${noteID} - title`,
           textKey = `${MONTH} ${DAY} - ${noteID} - text`;
