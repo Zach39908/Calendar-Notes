@@ -17,13 +17,13 @@ function setDateHeading() {
 }
 
 function loadNotes() {
-    const regex = new RegExp(`${MONTH} ${DAY} - [0-9]+ - text`);
+    const regex = new RegExp(`${MONTH} ${DAY} ${YEAR} - [0-9]+ - text`);
 
     for(const key in localStorage) {
         if(regex.test(key)) {
             const noteID = key.split(' - ')[1],
-                  noteTitle = localStorage.getItem(`${MONTH} ${DAY} - ${noteID} - title`),
-                  noteText = localStorage.getItem(`${MONTH} ${DAY} - ${noteID} - text`);
+                  noteTitle = localStorage.getItem(`${MONTH} ${DAY} ${YEAR} - ${noteID} - title`),
+                  noteText = localStorage.getItem(`${MONTH} ${DAY} ${YEAR} - ${noteID} - text`);
 
             addNote(noteID, noteTitle, noteText, false);
         }
@@ -33,8 +33,8 @@ function loadNotes() {
 function saveNote(note) {
     const noteTitle = note.children.item(0).innerText,
           noteID = note.dataset.ID,
-          titleKey = `${MONTH} ${DAY} - ${noteID} - title`,
-          textKey = `${MONTH} ${DAY} - ${noteID} - text`;
+          titleKey = `${MONTH} ${DAY} ${YEAR} - ${noteID} - title`,
+          textKey = `${MONTH} ${DAY} ${YEAR} - ${noteID} - text`;
 
     let noteText = undefined;
     if(note === activeNote)
@@ -115,8 +115,8 @@ function deleteNote(note) {
         closeNote();
 
     const noteID = note.dataset.ID,
-          titleKey = `${MONTH} ${DAY} - ${noteID} - title`,
-          textKey = `${MONTH} ${DAY} - ${noteID} - text`;
+          titleKey = `${MONTH} ${DAY} ${YEAR} - ${noteID} - title`,
+          textKey = `${MONTH} ${DAY} ${YEAR} - ${noteID} - text`;
 
     localStorage.removeItem(titleKey);
     localStorage.removeItem(textKey);
@@ -143,7 +143,7 @@ loadNotes();
                       <p>Enter notes...</p>
                    </div>
 */
-const counterKey = `${MONTH} ${DAY} - counter`;
+const counterKey = `${MONTH} ${DAY} ${YEAR} - counter`;
 if(!localStorage.getItem(counterKey))
     localStorage.setItem(counterKey, 1);
 
