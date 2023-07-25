@@ -25,7 +25,7 @@ function loadNotes() {
                   noteTitle = localStorage.getItem(`${MONTH} ${DAY} - ${noteID} - title`),
                   noteText = localStorage.getItem(`${MONTH} ${DAY} - ${noteID} - text`);
 
-            addNote(noteID, noteTitle, noteText);
+            addNote(noteID, noteTitle, noteText, false);
         }
     }
 }
@@ -98,11 +98,13 @@ function createNote(noteID, title, text) {
     return note;
 }
 
-function addNote(noteID, noteTitle = 'Title', noteText = 'Enter notes...') {
+function addNote(noteID, noteTitle = 'Title', noteText = 'Enter notes...', save = true) {
     const notesContainer = document.querySelector('.notes'),
           note = createNote(noteID, noteTitle, noteText);
 
-    saveNote(note);
+    if(save)
+        saveNote(note);
+        
     notesContainer.appendChild(note);
 }
 
