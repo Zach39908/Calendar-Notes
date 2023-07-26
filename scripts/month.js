@@ -1,5 +1,6 @@
 const MONTH = localStorage.getItem('month'),
-      YEAR = localStorage.getItem('year');
+      YEAR = localStorage.getItem('year'),
+      WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 // -- FUNCTIONS --
 function setDateHeading() {
@@ -20,7 +21,7 @@ function extendCalendar() {
     }
 }
 
-function populateCalendar(weekdays, dayCells) {
+function populateCalendar(dayCells) {
     /* 
       - Offset is an integer index for the weekday of the selected month's first day
       - Example:  month = July, year = 2023  -->  July 1st, 2023 is a Saturday (6)  -->  offset = 6
@@ -35,14 +36,14 @@ function populateCalendar(weekdays, dayCells) {
         for(let i = offset; i < daysInMonth + offset; i++) {
             dayCells[i].dataset.number = `${i - offset + 1}`; // add date to each cell
             const getWeekday = new Date(`${MONTH} ${i - offset +  1}, ${YEAR} 00:00:00`);
-            dayCells[i].dataset.weekday = weekdays[getWeekday.getDay()].slice(0, 3); // add weekday to each cell (not visible)
+            dayCells[i].dataset.weekday = WEEKDAYS[getWeekday.getDay()].slice(0, 3); // add weekday to each cell (not visible)
         }
     }
     else { // disregard offset for mobile devices
         for(let i = 0; i < daysInMonth; i++) {
             dayCells[i].dataset.number = `${i+1}`; // add date to each cell
             const getWeekday = new Date(`${MONTH} ${i + 1}, ${YEAR} 00:00:00`);
-            dayCells[i].dataset.weekday = weekdays[getWeekday.getDay()].slice(0, 3); // add weekday to each cell (visible)
+            dayCells[i].dataset.weekday = WEEKDAYS[getWeekday.getDay()].slice(0, 3); // add weekday to each cell (visible)
         }
     }
 }
@@ -57,16 +58,58 @@ function disableBlankCells(dayCells) {
         }
     });
 }
+
+function searchNotes() {
+    const dropdown = document.querySelector('.dropdown');
+    while(dropdown.hasChildNodes())
+         dropdown.removeChild(dropdown.firstChild);
+
+    if(this.value === '')
+         return;
+
+    for(const key in localStorage) {
+         if(key.includes('text') || key.includes('title')) {
+              const noteInfo = localStorage.getItem(key);
+              if(noteInfo.toLowerCase().includes(this.value.toLowerCase()))
+                   createSearchResult(noteInfo, key, dropdown);
+         }
+    }
+}
+
+function createSearchResult(noteInfo, key, dropdown) {
+    const partsOfDate = key.split(' - ')[0].split(' '),
+          month = partsOfDate[0],
+          day = partsOfDate[1],
+          year = partsOfDate[2],
+          getWeekday = new Date(`${month} ${day}, ${year} 00:00:00`),
+          weekday = WEEKDAYS[getWeekday.getDay()];
+    const listItem = document.createElement('li'),
+          itemLink = document.createElement('a'),
+          itemSpan = document.createElement('span');
+    
+    itemSpan.textContent = `- ${month} ${day}`;
+    itemLink.textContent = noteInfo;
+    itemLink.href = '../pages/day.html';
+    itemLink.appendChild(itemSpan);
+    listItem.appendChild(itemLink);
+    dropdown.appendChild(listItem);
+
+    listItem.addEventListener('click', () => {
+         localStorage.setItem('month', month);
+         localStorage.setItem('day', day);
+         localStorage.setItem('year', year);
+         localStorage.setItem('weekday', weekday);
+    });
+}
 // -- END OF FUNCTIONS --
 
 setDateHeading();
 if(window.screen.width >= 750)
     extendCalendar();
 
-const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-      dayCells = document.querySelectorAll('li.day');
+const dayCells = document.querySelectorAll('li.day');
 
-populateCalendar(weekdays, Array.from(dayCells));
+populateCalendar(Array.from(dayCells));
 disableBlankCells(dayCells);
 
 // Save date to local storage when selected
@@ -74,3 +117,5 @@ dayCells.forEach(day => day.addEventListener('click', () => {
     localStorage.setItem('day', day.dataset.number);
     localStorage.setItem('weekday', weekdays.find(elem => elem.slice(0, 3) === day.dataset.weekday));
 }));
+
+document.querySelector('header input').addEventListener('input', searchNotes);

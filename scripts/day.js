@@ -1,14 +1,14 @@
 const MONTH = localStorage.getItem('month'),
       DAY = localStorage.getItem('day'),
       WEEKDAY = localStorage.getItem('weekday'),
-      YEAR = localStorage.getItem('year');
+      YEAR = localStorage.getItem('year'),
+      WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 let activeNote = null;
 
 // -- FUNCTIONS --
 function setDateHeading() {
-    const today = new Date(),
-          headingLinks = Array.from(document.querySelectorAll('.link'));
+    const headingLinks = Array.from(document.querySelectorAll('.link'));
 
     document.title = `Calendar Notes - ${MONTH} ${DAY}`;
     headingLinks[0].textContent = YEAR;
@@ -67,6 +67,8 @@ function closeNote() {
     if(!activeNote)
         return;
 
+    saveNote(activeNote);
+
     const noteTitle = activeNote.children.item(0),
           saveBtn = activeNote.children.item(1),
           closeBtn = activeNote.children.item(2),
@@ -122,6 +124,49 @@ function deleteNote(note) {
     localStorage.removeItem(textKey);
     document.querySelector('.notes').removeChild(note);
 }
+
+function searchNotes() {
+    const dropdown = document.querySelector('.dropdown');
+    while(dropdown.hasChildNodes())
+         dropdown.removeChild(dropdown.firstChild);
+
+    if(this.value === '')
+         return;
+
+    for(const key in localStorage) {
+         if(key.includes('text') || key.includes('title')) {
+              const noteInfo = localStorage.getItem(key);
+              if(noteInfo.toLowerCase().includes(this.value.toLowerCase()))
+                   createSearchResult(noteInfo, key, dropdown);
+         }
+    }
+}
+
+function createSearchResult(noteInfo, key, dropdown) {
+    const partsOfDate = key.split(' - ')[0].split(' '),
+          month = partsOfDate[0],
+          day = partsOfDate[1],
+          year = partsOfDate[2],
+          getWeekday = new Date(`${month} ${day}, ${year} 00:00:00`),
+          weekday = WEEKDAYS[getWeekday.getDay()];
+    const listItem = document.createElement('li'),
+          itemLink = document.createElement('a'),
+          itemSpan = document.createElement('span');
+    
+    itemSpan.textContent = `- ${month} ${day}`;
+    itemLink.textContent = noteInfo;
+    itemLink.href = '../pages/day.html';
+    itemLink.appendChild(itemSpan);
+    listItem.appendChild(itemLink);
+    dropdown.appendChild(listItem);
+
+    listItem.addEventListener('click', () => {
+         localStorage.setItem('month', month);
+         localStorage.setItem('day', day);
+         localStorage.setItem('year', year);
+         localStorage.setItem('weekday', weekday);
+    });
+}
 // -- END OF FUNCTIONS --
 
 setDateHeading();
@@ -165,7 +210,6 @@ notesContainer.addEventListener('click', e => {
                 return;
             }
             if(e.target.tagName === 'BUTTON' && e.target.textContent === 'Close') {
-                saveNote(activeNote);
                 closeNote();
                 return;
             }
@@ -187,3 +231,5 @@ notesContainer.addEventListener('click', e => {
             else
                 openNote(e.target);
         });
+
+document.querySelector('header input').addEventListener('input', searchNotes);

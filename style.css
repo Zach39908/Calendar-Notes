@@ -80,9 +80,17 @@ header input {
 
 .dropdown li {
     width: 100%;
-    padding: 5px;
-    list-style-position: inside;
+    list-style: none;
     font-size: 0.9rem;
+    display: flex;
+}
+
+.dropdown a {
+    border: 1px solid var(--bg-opaque);
+    width: 100%;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
 }
 
 .dropdown li:hover {
