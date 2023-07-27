@@ -10,7 +10,7 @@ let activeNote = null;
 function setDateHeading() {
     const headingLinks = Array.from(document.querySelectorAll('.link'));
 
-    document.title = `Calendar Notes - ${MONTH} ${DAY}`;
+    document.title = `SnapShots - ${MONTH} ${DAY}`;
     headingLinks[0].textContent = YEAR;
     headingLinks[1].textContent = WEEKDAY;
     document.querySelector('.date-heading').textContent = `${MONTH} ${DAY}`;

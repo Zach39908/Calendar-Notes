@@ -6,7 +6,7 @@ const MONTH = localStorage.getItem('month'),
 function setDateHeading() {
     document.querySelector('.link').textContent = YEAR // set year text
     document.querySelector('.date-heading').textContent = MONTH; // set month text
-    document.title = `Calendar Notes - ${MONTH}`;
+    document.title = `SnapShots - ${MONTH}`;
 }
 
 function extendCalendar() {
