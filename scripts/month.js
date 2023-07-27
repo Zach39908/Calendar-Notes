@@ -87,9 +87,9 @@ function createSearchResult(noteInfo, key, dropdown) {
           itemLink = document.createElement('a'),
           itemSpan = document.createElement('span');
     
-    itemSpan.textContent = `- ${month} ${day}`;
+    itemSpan.textContent = `- ${month} ${day}, ${year}`;
     itemLink.textContent = noteInfo;
-    itemLink.href = '../pages/day.html';
+    itemLink.href = 'day.html';
     itemLink.appendChild(itemSpan);
     listItem.appendChild(itemLink);
     dropdown.appendChild(listItem);

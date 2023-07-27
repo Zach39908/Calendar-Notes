@@ -99,6 +99,7 @@ header input {
 
 .dropdown span {
     font-size: 0.8rem;
+    color: var(--line-accent);
 }
 
 .date-heading {
