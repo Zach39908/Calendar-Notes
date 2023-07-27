@@ -115,7 +115,7 @@ disableBlankCells(dayCells);
 // Save date to local storage when selected
 dayCells.forEach(day => day.addEventListener('click', () => {
     localStorage.setItem('day', day.dataset.number);
-    localStorage.setItem('weekday', weekdays.find(elem => elem.slice(0, 3) === day.dataset.weekday));
+    localStorage.setItem('weekday', WEEKDAYS.find(elem => elem.slice(0, 3) === day.dataset.weekday));
 }));
 
 document.querySelector('header input').addEventListener('input', searchNotes);
