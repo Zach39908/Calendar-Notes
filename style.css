@@ -75,7 +75,7 @@ header input {
     z-index: 2;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .dropdown li {
@@ -354,7 +354,7 @@ a.date-heading:hover {
     grid-template-columns: 1fr 1fr;
     grid-auto-rows: 10em;
     gap: 0.5em;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .note {
@@ -402,7 +402,7 @@ a.date-heading:hover {
     background-color: var(--bg-medium);
     border: 1px dashed var(--line-accent);
     grid-template-columns: 1fr 0.3fr 0.3fr 0.1fr;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .active button {
